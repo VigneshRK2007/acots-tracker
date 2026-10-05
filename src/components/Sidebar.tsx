@@ -1,0 +1,13 @@
+import { Home, LayoutDashboard, KanbanSquare, FileText, Target, MessageSquare, Moon, Sun, X } from 'lucide-react';
+import { useTheme } from '@/context/ThemeContext';
+export type PageId = 'home' | 'dashboard' | 'applications' | 'resume' | 'skills' | 'interview';
+const nav = [{id:'home',label:'Home',icon:Home},{id:'dashboard',label:'Dashboard',icon:LayoutDashboard},{id:'applications',label:'Applications',icon:KanbanSquare},{id:'resume',label:'Resume Optimizer',icon:FileText},{id:'skills',label:'Skill Gap',icon:Target},{id:'interview',label:'Interview Prep',icon:MessageSquare}] as const;
+export default function Sidebar({ page, onNavigate, mobileOpen, close }: {page:PageId; onNavigate:(p:PageId)=>void; mobileOpen:boolean; close:()=>void}) {
+ const { dark, toggleTheme } = useTheme();
+ return <><div onClick={close} className={`fixed inset-0 z-30 bg-slate-950 lg:hidden ${mobileOpen ? '' : 'hidden'}`} /><aside className={`fixed top-0 z-40 flex h-screen w-64 flex-col border-r border-slate-200 bg-white transition-all duration-300 dark:border-slate-800 dark:bg-slate-900 lg:sticky lg:z-0 lg:translate-x-0 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+  <div className="flex h-16 items-center gap-3 border-b border-slate-200 px-4 dark:border-slate-800"><Logo /><button onClick={close} className="ml-auto text-slate-500 lg:hidden"><X size={20}/></button></div>
+  <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">{nav.map(item => { const Icon=item.icon, active=page===item.id; return <button key={item.id} onClick={()=>{onNavigate(item.id);close();}} className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-all duration-200 ${active?'bg-blue-50 text-blue-600 dark:bg-slate-800 dark:text-blue-400':'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white'}`}><Icon size={19} className={active?'scale-110':''}/>{item.label}</button>})}</nav>
+  <div className="border-t border-slate-200 p-3 dark:border-slate-800"><button onClick={toggleTheme} className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800">{dark?<Sun size={19}/>:<Moon size={19}/>} {dark?'Light Mode':'Dark Mode'}</button></div>
+ </aside></>;
+}
+export function Logo(){return <><div className="flex h-9 w-9 items-center justify-center rounded-md bg-blue-600 text-xs font-bold text-white shadow-sm">AC</div><div><div className="text-sm font-bold tracking-tight text-slate-900 dark:text-white">ACOTS</div><div className="text-[10px] text-slate-400">Candidate Tracking</div></div></>}

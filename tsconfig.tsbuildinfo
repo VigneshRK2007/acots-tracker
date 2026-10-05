@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/main.tsx","./src/components/Sidebar.tsx","./src/context/ThemeContext.tsx","./src/data/mockData.ts","./src/pages/ApplicationsPage.tsx","./src/pages/DashboardPage.tsx","./src/pages/HomePage.tsx","./src/pages/InterviewPrepPage.tsx","./src/pages/ResumeOptimizerPage.tsx","./src/pages/SkillGapPage.tsx"],"version":"5.9.3"}
