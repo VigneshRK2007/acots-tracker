@@ -22,6 +22,8 @@ cp .env.example .env
 
 If you are reusing a `.env` from the former Spring service, replace its `DATABASE_URL` value with the async SQLAlchemy format shown in `.env.example`.
 
+This project maps the Docker database to port `5433` on the host to avoid a conflict with a locally installed PostgreSQL service that often occupies port `5432`.
+
 Set a valid `GEMINI_API_KEY` in `.env`, then start the API:
 
 ```bash
@@ -34,8 +36,12 @@ The API permits browser requests from `http://localhost:5173`.
 
 - `POST /api/analyze` — multipart form fields: `file` (PDF) and `jobDescription`
 - `GET /api/latest` — retrieves the latest persisted analysis
+- `GET /api/applications` — retrieves the application tracker entries
+- `POST /api/applications` — creates a tracker entry with `company`, `role`, `dateApplied`, and `status`
+- `PUT /api/applications/{id}/status` — updates one application status
+- `GET /api/interviews/questions?applicationId={id}` — returns role-aware technical and behavioral preparation questions
 
-Both endpoints return this JSON contract:
+The ATS analysis endpoints return this JSON contract:
 
 ```json
 {
@@ -44,3 +50,5 @@ Both endpoints return this JSON contract:
   "optimizationSuggestions": []
 }
 ```
+
+The application endpoints persist their state in the same PostgreSQL database. The dashboard combines this application pipeline with the latest ATS analysis; it does not use frontend mock data.

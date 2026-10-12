@@ -1,4 +1,4 @@
-import { ArrowRight, FileText } from 'lucide-react';
+import { ArrowRight, BriefcaseBusiness, FileText } from 'lucide-react';
 import type { PageId } from '@/components/Sidebar';
 
 export default function HomePage({ onNavigate }: { onNavigate: (page: PageId) => void }) {
@@ -8,7 +8,8 @@ export default function HomePage({ onNavigate }: { onNavigate: (page: PageId) =>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950">Job search operations, in one workspace.</h1>
       <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">Track real applications, analyze a resume against a job description, identify skill gaps, and retrieve role-specific interview preparation.</p>
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={() => onNavigate('resume')} className="inline-flex items-center gap-2 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800">Analyze resume <ArrowRight size={16} /></button>
+        <button onClick={() => onNavigate('dashboard')} className="inline-flex items-center gap-2 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800">Open dashboard <ArrowRight size={16} /></button>
+        <button onClick={() => onNavigate('applications')} className="inline-flex items-center gap-2 rounded-md border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"><BriefcaseBusiness size={16} />Track applications</button>
         <button onClick={() => onNavigate('resume')} className="inline-flex items-center gap-2 rounded-md border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"><FileText size={16} />Analyze resume</button>
       </div>
     </div>

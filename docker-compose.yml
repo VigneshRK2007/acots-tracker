@@ -6,7 +6,9 @@ services:
       POSTGRES_USER: acots
       POSTGRES_PASSWORD: acots
     ports:
-      - "5432:5432"
+      # Host port 5432 is commonly occupied by a system PostgreSQL service.
+      # Keep the project database isolated and use the matching .env URL.
+      - "5433:5432"
     volumes:
       - acots-postgres-data:/var/lib/postgresql/data
 

@@ -1,11 +1,15 @@
-import { Home, FileText, Target, X } from 'lucide-react';
+import { BarChart3, BellRing, BriefcaseBusiness, FileText, Home, MessageSquareText, Target, X } from 'lucide-react';
 
-export type PageId = 'home' | 'resume' | 'skills';
+export type PageId = 'home' | 'dashboard' | 'applications' | 'followups' | 'resume' | 'skills' | 'interviews';
 
 const navigation = [
   { id: 'home', label: 'Home', icon: Home },
+  { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
+  { id: 'applications', label: 'Applications', icon: BriefcaseBusiness },
+  { id: 'followups', label: 'Follow-ups', icon: BellRing },
   { id: 'resume', label: 'Resume Optimizer', icon: FileText },
   { id: 'skills', label: 'Skill Gap', icon: Target },
+  { id: 'interviews', label: 'Interview Prep', icon: MessageSquareText },
 ] as const;
 
 export default function Sidebar({ page, onNavigate, mobileOpen, close }: { page: PageId; onNavigate: (page: PageId) => void; mobileOpen: boolean; close: () => void }) {

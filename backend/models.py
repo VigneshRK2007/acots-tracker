@@ -21,7 +21,7 @@ def normalized_database_url(value: str) -> str:
     return value
 
 
-DATABASE_URL = normalized_database_url(os.getenv("DATABASE_URL", "postgresql+asyncpg://acots:acots@localhost:5432/acots"))
+DATABASE_URL = normalized_database_url(os.getenv("DATABASE_URL", "postgresql+asyncpg://acots:acots@localhost:5433/acots"))
 
 
 class Base(AsyncAttrs, DeclarativeBase):
@@ -49,6 +49,9 @@ class Application(Base):
     role: Mapped[str] = mapped_column(String(160), nullable=False)
     date_applied: Mapped[datetime | None] = mapped_column(nullable=True)
     status: Mapped[ApplicationStatus] = mapped_column(SqlEnum(ApplicationStatus, name="application_status"), default=ApplicationStatus.SAVED, nullable=False)
+    interview_stage: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    next_follow_up: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    notes: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
@@ -89,6 +92,9 @@ async def initialize_database() -> None:
         # and a fresh database without requiring users to delete their data.
         await connection.execute(text("ALTER TABLE resume_analyses ADD COLUMN IF NOT EXISTS resume_text TEXT"))
         await connection.execute(text("ALTER TABLE resume_analyses ADD COLUMN IF NOT EXISTS file_size_bytes INTEGER"))
+        await connection.execute(text("ALTER TABLE applications ADD COLUMN IF NOT EXISTS interview_stage VARCHAR(40)"))
+        await connection.execute(text("ALTER TABLE applications ADD COLUMN IF NOT EXISTS next_follow_up TIMESTAMPTZ"))
+        await connection.execute(text("ALTER TABLE applications ADD COLUMN IF NOT EXISTS notes TEXT"))
 
 
 async def get_session():
